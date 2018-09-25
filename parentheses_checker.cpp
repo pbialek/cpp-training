@@ -6,19 +6,20 @@
 
 #include<iostream>
 #include<stack>
+#include<string>
 
-bool parentheses(char* input) {
+bool parentheses(std::string input) {
     std::stack<char> brackets_stack;
-    for(char* it = input; *it; ++it) {
-        if (*it == '(' || *it == '[' || *it == '{') {
-            brackets_stack.push(*it);
+    for(char current_bracket : input) {
+        if (current_bracket == '(' || current_bracket == '[' || current_bracket == '{') {
+            brackets_stack.push(current_bracket);
             continue;
         } else if(brackets_stack.empty()) {
             return false;
         }
-        else if (brackets_stack.top() == '(' && *it == ')' ||
-                 brackets_stack.top() == '[' && *it == ']' ||
-                 brackets_stack.top() == '{' && *it == '}') {
+        else if (brackets_stack.top() == '(' && current_bracket == ')' ||
+                 brackets_stack.top() == '[' && current_bracket == ']' ||
+                 brackets_stack.top() == '{' && current_bracket == '}') {
             brackets_stack.pop();
         }
     }
@@ -26,7 +27,7 @@ bool parentheses(char* input) {
     return brackets_stack.empty();
 }
 
-void test_parentheses(char* input, bool is_correct = true) {
+void test_parentheses(std::string input, bool is_correct = true) {
     std::cout << "TEST ";
     if (parentheses(input) == is_correct) {
         std::cout << "[ PASSED ]" << std::endl;
