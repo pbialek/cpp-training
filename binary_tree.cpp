@@ -1,5 +1,6 @@
 #include<iostream>
 #include<algorithm>
+#include<iomanip>
 
 template <typename T>
 class Node {
@@ -12,10 +13,6 @@ public:
         left;
         right;
     }
-    ~Node() {
-        std::cout << "deleting node with value " << data << std::endl;
-    }
-
     destroyNode(Node* node) {
         if(node) {
             destroyNode(node->left);
@@ -42,19 +39,26 @@ public:
         }
     }
 
-    void displayNodes() {
-        if(left) {
-            std::cout << data << "->" << " left: " << left->data << std::endl;
-            left->displayNodes();
-        }
-        if(right) {
-            std::cout << data << "->" << " right: " << right->data << std::endl;
-            right->displayNodes();
+    void displayNode(Node* leaf, int indent)
+    {
+        if(leaf) {
+            if(leaf->right) {
+                displayNode(leaf->right, indent + 4);
+            }
+            if (indent) {
+                std::cout << std::setw(indent) << ' ';
+            }
+            if (leaf->right) std::cout<<" /\n" << std::setw(indent) << ' ';
+            std::cout<< leaf->data << "\n ";
+            if(leaf->left) {
+                std::cout << std::setw(indent) << ' ' <<" \\\n";
+                displayNode(leaf->left, indent + 4);
+            }
         }
     }
 
-    int branch(Node* node){
-        return not node ? 0 : std::max(branch(node->left), branch(node->right))+1;
+    int depth(Node* node){
+        return not node ? 0 : std::max(depth(node->left), depth(node->right))+1;
     }
 };
 
@@ -66,7 +70,6 @@ public:
         root = new Node<T>(value);
     }
     ~BinaryTree() {
-        std::cout << "destroying Tree" << std::endl;
         destroyTree();
     }
 
@@ -79,11 +82,11 @@ public:
     }
 
     void displayTree() {
-        root->displayNodes();
+        root->displayNode(root, 0);
     }
 
     int depth() {
-        root->branch(root);
+        root->depth(root);
     }
 };
 
@@ -91,6 +94,7 @@ int main() {
     BinaryTree<int> tree(5);
 
     tree.insertNode(7);
+    tree.insertNode(6);
     tree.insertNode(2);
     tree.insertNode(1);
     tree.insertNode(3);
