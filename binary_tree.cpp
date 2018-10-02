@@ -1,12 +1,13 @@
 #include<iostream>
 #include<algorithm>
 
+template <typename T>
 class Node {
-    int data;
+    T data;
     Node* left;
     Node* right;
 public:
-    Node(int value) {
+    Node(T value) {
         data = value;
         left;
         right;
@@ -24,7 +25,7 @@ public:
         }
     }
 
-    void insert(int value) {
+    void insert(T value) {
         if(value < data) {
             if(not left) {
                 left = new Node(value);
@@ -57,11 +58,12 @@ public:
     }
 };
 
+template <typename T>
 class BinaryTree {
-    Node* root;
+    Node<T>* root;
 public:
-    BinaryTree(int value) {
-        root = new Node(value);
+    BinaryTree(T value) {
+        root = new Node<T>(value);
     }
     ~BinaryTree() {
         std::cout << "destroying Tree" << std::endl;
@@ -72,7 +74,7 @@ public:
         root->destroyNode(root);
     }
 
-    void insertNode(int value) {
+    void insertNode(T value) {
         root->insert(value);
     }
 
@@ -86,7 +88,7 @@ public:
 };
 
 int main() {
-    BinaryTree tree(5);
+    BinaryTree<int> tree(5);
 
     tree.insertNode(7);
     tree.insertNode(2);
