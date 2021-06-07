@@ -21,6 +21,8 @@ bool parentheses(std::string input) {
                  brackets_stack.top() == '[' && current_bracket == ']' ||
                  brackets_stack.top() == '{' && current_bracket == '}') {
             brackets_stack.pop();
+        } else {
+            return false;
         }
     }
 
@@ -48,4 +50,6 @@ int main(void) {
     test_parentheses("(]", false);
     test_parentheses("[(])", false);
     test_parentheses("{[()]()[{}]}}", false);
+    test_parentheses("[{}}]", false);
+    test_parentheses("}", false);
 }
